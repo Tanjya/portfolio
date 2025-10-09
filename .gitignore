@@ -1,0 +1,12 @@
+cat > .gitignore <<'EOF'
+# Node / Vite
+node_modules/
+dist/
+.vite/
+# macOS
+.DS_Store
+# Env / editors
+.env
+*.local
+.vscode/
+EOF
