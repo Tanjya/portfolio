@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
-
-// Drop this file into src/App.jsx (or replace your existing App component)
-// Tailwind required. Works with Vite + React.
+import { motion } from 'framer-motion'
 
 export default function App() {
   return (
@@ -346,4 +344,3 @@ function LinkedInIcon({ className = '' }) {
     </svg>
   )
 }
-
