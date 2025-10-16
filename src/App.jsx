@@ -1,9 +1,28 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
+
+/* ---------- Motion helpers (small + reusable) ---------- */
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+}
+const stagger = (delay = 0.08) => ({
+  hidden: {},
+  show: { transition: { staggerChildren: delay, delayChildren: 0.1 } },
+})
 
 export default function App() {
+  // global scroll progress bar
+  const { scrollYProgress } = useScroll()
+  const progressX = useSpring(scrollYProgress, { stiffness: 120, damping: 20, mass: 0.2 })
+
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
+      {/* Scroll progress bar */}
+      <motion.div
+        style={{ scaleX: progressX }}
+        className="fixed top-0 left-0 right-0 h-1 origin-left z-50 bg-gradient-to-r from-cyan-300 to-blue-400"
+      />
       <SiteNav />
       <Hero />
       <About />
@@ -35,19 +54,32 @@ function SiteNav() {
     <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/60 border-b border-white/10">
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Logo />
+          <motion.div
+            className="flex items-center gap-2"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+          >
+            <motion.div whileHover={{ rotate: 8 }} whileTap={{ rotate: -8 }}>
+              <Logo />
+            </motion.div>
             <span className="text-sm font-semibold tracking-wide">TANJYA • PORTFOLIO</span>
-          </div>
+          </motion.div>
+
           <nav className="hidden md:flex items-center gap-1">
             <NavLink href="#about">About</NavLink>
             <NavLink href="#projects">Projects</NavLink>
             <NavLink href="#contact">Contact</NavLink>
-            <a href="#contact" className="ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-white text-neutral-900 hover:bg-white/90">
+            <motion.a
+              href="#contact"
+              className="ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-white text-neutral-900 hover:bg-white/90"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
               <span>Hire me</span>
               <ArrowRightIcon className="size-4" />
-            </a>
+            </motion.a>
           </nav>
+
           <button
             className="md:hidden rounded-xl p-2 hover:bg-white/10"
             aria-label="Toggle menu"
@@ -60,46 +92,94 @@ function SiteNav() {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="md:hidden border-t border-white/10">
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          className="md:hidden border-t border-white/10"
+        >
           <div className="mx-auto max-w-6xl px-4 py-3 flex flex-col">
             <a className="py-2" href="#about" onClick={() => setOpen(false)}>About</a>
             <a className="py-2" href="#projects" onClick={() => setOpen(false)}>Projects</a>
             <a className="py-2" href="#contact" onClick={() => setOpen(false)}>Contact</a>
-            <a className="mt-2 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-white text-neutral-900 w-max" href="#contact" onClick={() => setOpen(false)}>
+            <a
+              className="mt-2 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-white text-neutral-900 w-max"
+              href="#contact" onClick={() => setOpen(false)}
+            >
               Hire me <ArrowRightIcon className="size-4" />
             </a>
           </div>
-        </div>
+        </motion.div>
       )}
     </header>
   )
 }
 
 function Hero() {
+  // parallax-ish subtle float for the badge + buttons
+  const float = {
+    animate: { y: [0, -6, 0] },
+    transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
+  }
+
   return (
     <section className="relative overflow-hidden border-b border-white/10">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(59,130,246,0.20),transparent_70%)]" />
+      {/* animated soft glow */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: [0.35, 0.6, 0.35] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          background:
+            'radial-gradient(60% 60% at 50% 0%, rgba(59,130,246,0.20), transparent 70%)',
+        }}
+      />
       <div className="mx-auto max-w-6xl px-4 py-24 md:py-32">
-        <div className="max-w-3xl">
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
+        <motion.div
+          className="max-w-3xl"
+          variants={stagger(0.12)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
+        >
+          <motion.p
+            variants={fadeUp}
+            className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
+            {...float}
+          >
             <SparkleIcon className="size-4" /> Available for junior frontend roles
-          </p>
-          <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl">
+          </motion.p>
+
+          <motion.h1 variants={fadeUp} className="text-4xl font-extrabold tracking-tight md:text-6xl">
             Building fast, clean UIs with React & Tailwind
-          </h1>
-          <p className="mt-5 text-white/70 md:text-lg">
-            I’m Tanjya Akther — a front‑end developer focused on performant, accessible interfaces.
+          </motion.h1>
+
+          <motion.p variants={fadeUp} className="mt-5 text-white/70 md:text-lg">
+            I’m Tanjya Akther — a front-end developer focused on performant, accessible interfaces.
             Have a look at my latest work and the NASA Daily Explorer project.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#projects" className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 font-semibold text-neutral-900 hover:bg-white/90">
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
+            <motion.a
+              href="#projects"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 font-semibold text-neutral-900 hover:bg-white/90"
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.98 }}
+            >
               View projects <ArrowRightIcon className="size-4" />
-            </a>
-            <a href="#contact" className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-2.5 font-semibold hover:bg-white/10">
+            </motion.a>
+            <motion.a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-2.5 font-semibold hover:bg-white/10"
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.98 }}
+            >
               Get in touch
-            </a>
-          </div>
-        </div>
+            </motion.a>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )
@@ -107,33 +187,59 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="mx-auto max-w-6xl px-4 py-20">
+    <motion.section
+      id="about"
+      className="mx-auto max-w-6xl px-4 py-20"
+      variants={stagger(0.08)}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.3 }}
+    >
       <div className="grid gap-8 md:grid-cols-3 md:gap-12">
         <div className="md:col-span-2 space-y-4">
-          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">About me</h2>
-          <p className="text-white/80">
-            Front‑end developer with a product mindset. I craft responsive, accessible interfaces and
+          <motion.h2 variants={fadeUp} className="text-2xl font-bold tracking-tight md:text-3xl">
+            About me
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-white/80">
+            Front-end developer with a product mindset. I craft responsive, accessible interfaces and
             ship quickly using a modern stack: React, Vite, Tailwind, and TypeScript. Comfortable with React Router,
             state management, and integrating REST APIs.
-          </p>
+          </motion.p>
           <ul className="grid gap-2 text-white/70 sm:grid-cols-2">
-            <li className="flex items-center gap-2"><CheckIcon className="size-5" /> React / TypeScript / Vite</li>
-            <li className="flex items-center gap-2"><CheckIcon className="size-5" /> Tailwind CSS / UI Systems</li>
-            <li className="flex items-center gap-2"><CheckIcon className="size-5" /> REST APIs / Axios / Fetch</li>
-            <li className="flex items-center gap-2"><CheckIcon className="size-5" /> Git / GitHub / CI basics</li>
+            {[
+              'React / TypeScript / Vite',
+              'Tailwind CSS / UI Systems',
+              'REST APIs / Axios / Fetch',
+              'Git / GitHub / CI basics',
+            ].map((item) => (
+              <motion.li
+                key={item}
+                variants={fadeUp}
+                className="flex items-center gap-2"
+                whileHover={{ x: 4 }}
+              >
+                <CheckIcon className="size-5" /> {item}
+              </motion.li>
+            ))}
           </ul>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+
+        <motion.div
+          variants={fadeUp}
+          className="rounded-2xl border border-white/10 bg-white/5 p-5"
+          whileHover={{ scale: 1.01 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        >
           <h3 className="font-semibold">Quick facts</h3>
           <ul className="mt-3 space-y-2 text-sm text-white/80">
             <li>📍 London, UK</li>
             <li>🛰️ Building: NASA Daily Explorer</li>
-            <li>🎯 Goal: Junior Frontend role by year‑end</li>
-            <li>💬 Open to freelance/part‑time</li>
+            <li>🎯 Goal: Junior Frontend role by year-end</li>
+            <li>💬 Open to freelance/part-time</li>
           </ul>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
@@ -147,7 +253,7 @@ function Projects() {
     },
     {
       title: 'Portfolio v3',
-      blurb: 'Fast, accessible, content‑driven portfolio with routing & MDX sections.',
+      blurb: 'Fast, accessible, content-driven portfolio with routing & MDX sections.',
       tags: ['React', 'Vite', 'Tailwind'],
       link: '#',
     },
@@ -166,16 +272,32 @@ function Projects() {
           <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Projects</h2>
           <a href="#contact" className="text-sm text-white/70 hover:text-white">Need something built?</a>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          variants={stagger(0.12)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {cards.map((c, i) => (
-            <a
+            <motion.a
               key={i}
               href={c.link}
-              className="group rounded-2xl border border-white/10 bg-neutral-900/60 p-5 transition hover:-translate-y-0.5 hover:border-white/20"
+              variants={fadeUp}
+              className="group rounded-2xl border border-white/10 bg-neutral-900/60 p-5 transition"
+              whileHover={{ y: -6, boxShadow: '0 10px 30px rgba(59,130,246,0.12)' }}
+              whileTap={{ scale: 0.99 }}
             >
               <div className="flex items-center justify-between gap-2">
                 <h3 className="text-lg font-semibold tracking-tight">{c.title}</h3>
-                <ArrowUpRightIcon className="size-5 text-white/40 group-hover:text-white" />
+                <motion.span
+                  initial={{ opacity: 0.4, x: 0 }}
+                  whileHover={{ opacity: 1, x: 2 }}
+                  className="text-white/40 group-hover:text-white"
+                >
+                  <ArrowUpRightIcon className="size-5" />
+                </motion.span>
               </div>
               <p className="mt-2 text-sm text-white/70">{c.blurb}</p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -185,32 +307,46 @@ function Projects() {
                   </span>
                 ))}
               </div>
-            </a>
+            </motion.a>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
 }
 
 function Contact() {
+  const formRef = useRef(null)
+
   return (
-    <section id="contact" className="mx-auto max-w-6xl px-4 py-20">
+    <motion.section
+      id="contact"
+      className="mx-auto max-w-6xl px-4 py-20"
+      variants={stagger(0.08)}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.3 }}
+    >
       <div className="grid items-center gap-8 md:grid-cols-2">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Let’s work together</h2>
-          <p className="mt-3 text-white/70">
+          <motion.h2 variants={fadeUp} className="text-2xl font-bold tracking-tight md:text-3xl">
+            Let’s work together
+          </motion.h2>
+          <motion.p variants={fadeUp} className="mt-3 text-white/70">
             I’m available for junior frontend roles, internships and freelance projects.
             Send a message and I’ll get back to you promptly.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/80">
+          </motion.p>
+          <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3 text-sm text-white/80">
             <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><MailIcon className="size-4" /> tanjya.akther@example.com</span>
             <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><GitHubIcon className="size-4" /> github.com/tanjya</span>
             <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><LinkedInIcon className="size-4" /> linkedin.com/in/tanjya</span>
-          </div>
+          </motion.div>
         </div>
-        <form
+
+        <motion.form
+          ref={formRef}
           onSubmit={(e) => e.preventDefault()}
+          variants={fadeUp}
           className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3"
         >
           <Input label="Your name" placeholder="Tanjya Akther" />
@@ -219,10 +355,20 @@ function Contact() {
             <label className="mb-1 block text-sm">Message</label>
             <textarea className="w-full rounded-xl border border-white/10 bg-neutral-900 p-3 outline-none focus:ring-2 focus:ring-white/20" rows={5} placeholder="Tell me about your project..." />
           </div>
-          <button className="w-full rounded-xl bg-white px-4 py-2 font-semibold text-neutral-900 hover:bg-white/90">Send</button>
-        </form>
+          <motion.button
+            className="w-full rounded-xl bg-white px-4 py-2 font-semibold text-neutral-900 hover:bg-white/90"
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => {
+              // tiny feedback pulse
+              if (!formRef.current) return
+            }}
+          >
+            Send
+          </motion.button>
+        </motion.form>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
@@ -232,9 +378,21 @@ function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-8 flex flex-col items-center justify-between gap-4 md:flex-row">
         <p className="text-sm text-white/60">© {new Date().getFullYear()} Tanjya Akther. All rights reserved.</p>
         <div className="flex items-center gap-2 text-white/70">
-          <a className="rounded-xl border border-white/10 px-3 py-1.5 text-sm hover:bg-white/10" href="#about">About</a>
-          <a className="rounded-xl border border-white/10 px-3 py-1.5 text-sm hover:bg-white/10" href="#projects">Projects</a>
-          <a className="rounded-xl border border-white/10 px-3 py-1.5 text-sm hover:bg-white/10" href="#contact">Contact</a>
+          {[
+            { href: '#about', label: 'About' },
+            { href: '#projects', label: 'Projects' },
+            { href: '#contact', label: 'Contact' },
+          ].map((l) => (
+            <motion.a
+              key={l.href}
+              href={l.href}
+              className="rounded-xl border border-white/10 px-3 py-1.5 text-sm hover:bg-white/10"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {l.label}
+            </motion.a>
+          ))}
         </div>
       </div>
     </footer>
