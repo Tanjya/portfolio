@@ -249,19 +249,19 @@ function Projects() {
       title: 'NASA Daily Explorer',
       blurb: 'Interactive space data dashboard with imagery, APOD and rover feeds.',
       tags: ['React', 'Tailwind', 'APIs'],
-      link: '#',
+      link: 'https://tanjya.github.io/nasa-portfolio/',
     },
     {
-      title: 'Portfolio v3',
-      blurb: 'Fast, accessible, content-driven portfolio with routing & MDX sections.',
-      tags: ['React', 'Vite', 'Tailwind'],
-      link: '#',
+      title: 'Netflix Clone',
+      blurb: 'Streaming platform using authentication, media browsing, and responsive design.',
+      tags: ['React', 'Node.js', 'Tailwind','TypeScript'],
+      link: 'https://netflix-project-clone1.netlify.app/',
     },
     {
-      title: 'UI Component Kit',
-      blurb: 'Reusable components (navbars, cards, modals) tuned for Tailwind.',
-      tags: ['Components', 'Tailwind'],
-      link: '#',
+      title: 'Restaurant Application',
+      blurb: 'Responsive restaurant web application designed to reflect branding while delivering a smooth and engaging user experience.',
+      tags: ['React', 'JavaScript', 'Tailwind', ' RESTful API'],
+      link: 'https://restaurant-tanjya.netlify.app/',
     },
   ]
 
@@ -337,7 +337,7 @@ function Contact() {
             Send a message and I’ll get back to you promptly.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3 text-sm text-white/80">
-            <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><MailIcon className="size-4" /> tanjya.akther@example.com</span>
+            <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><MailIcon className="size-4" /> tanjya26@gmail.com</span>
             <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><GitHubIcon className="size-4" /> github.com/tanjya</span>
             <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><LinkedInIcon className="size-4" /> linkedin.com/in/tanjya</span>
           </motion.div>
