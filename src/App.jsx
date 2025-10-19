@@ -136,7 +136,8 @@ function Hero() {
             'radial-gradient(60% 60% at 50% 0%, rgba(59,130,246,0.20), transparent 70%)',
         }}
       />
-      <div className="mx-auto max-w-6xl px-4 py-24 md:py-32">
+      {/* tighter mobile spacing for better first paint */}
+      <div className="mx-auto max-w-6xl px-4 pt-20 pb-16 md:py-32">
         <motion.div
           className="max-w-3xl"
           variants={stagger(0.12)}
@@ -203,6 +204,13 @@ function About() {
             ship quickly using a modern stack: React, Vite, Tailwind, and TypeScript. Comfortable with React Router,
             state management, and integrating REST APIs.
           </motion.p>
+          <motion.p variants={fadeUp} className="text-white/70">
+            I love turning ideas into smooth, interactive experiences and bringing designs to life through code. I care about
+            performance, accessibility, and clean component architectures.
+          </motion.p>
+          <motion.p variants={fadeUp} className="text-white/70">
+            I collaborate closely with designers and backend engineers, iterate fast, and focus on shipping user value.
+          </motion.p>
           <ul className="grid gap-2 text-white/70 sm:grid-cols-2">
             {[
               'React / TypeScript / Vite',
@@ -231,7 +239,7 @@ function About() {
           <h3 className="font-semibold">Quick facts</h3>
           <ul className="mt-3 space-y-2 text-sm text-white/80">
             <li>📍 London, UK</li>
-            <li>🛰️ Building: Tiktok screen mirror</li>
+            <li>🛰️ Building: TikTok Data Explorer (in progress)</li>
             <li>🎯 Goal: Junior Frontend role by year-end</li>
             <li>💬 Open to freelance/part-time</li>
           </ul>
@@ -248,18 +256,21 @@ function Projects() {
       blurb: 'Interactive space data dashboard with imagery, APOD and rover feeds.',
       tags: ['React', 'Tailwind', 'APIs'],
       link: 'https://tanjya.github.io/nasa-portfolio/',
+      img: '/images/nasa-thumb.jpg',
     },
     {
       title: 'Netflix Clone',
       blurb: 'Streaming platform using authentication, media browsing, and responsive design.',
-      tags: ['React', 'Node.js', 'Tailwind','TypeScript'],
+      tags: ['React', 'Node.js', 'Tailwind', 'TypeScript'],
       link: 'https://netflix-project-clone1.netlify.app/',
+      img: '/images/netflix-thumb.jpg',
     },
     {
       title: 'Restaurant Application',
       blurb: 'Responsive restaurant web application designed to reflect branding while delivering a smooth and engaging user experience.',
-      tags: ['React', 'JavaScript', 'Tailwind', ' RESTful API'],
+      tags: ['React', 'JavaScript', 'Tailwind', 'RESTful API'],
       link: 'https://restaurant-tanjya.netlify.app/',
+      img: '/images/restaurant-thumb.jpg',
     },
   ]
 
@@ -285,27 +296,43 @@ function Projects() {
               target="_blank"
               rel="noopener noreferrer"
               variants={fadeUp}
-              className="group rounded-2xl border border-white/10 bg-neutral-900/60 p-5 transition"
+              className="group rounded-2xl border border-white/10 bg-neutral-900/60 overflow-hidden transition"
               whileHover={{ y: -6, boxShadow: '0 10px 30px rgba(59,130,246,0.12)' }}
               whileTap={{ scale: 0.99 }}
             >
-              <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-semibold tracking-tight">{c.title}</h3>
-                <motion.span
-                  initial={{ opacity: 0.4, x: 0 }}
-                  whileHover={{ opacity: 1, x: 2 }}
-                  className="text-white/40 group-hover:text-white"
-                >
-                  <ArrowUpRightIcon className="size-5" />
-                </motion.span>
-              </div>
-              <p className="mt-2 text-sm text-white/70">{c.blurb}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {c.tags.map((t) => (
-                  <span key={t} className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/70">
-                    {t}
-                  </span>
-                ))}
+              {/* preview image */}
+              {c.img && (
+                <div className="relative h-40 w-full overflow-hidden rounded-t-2xl">
+                  <img
+                    src={c.img}
+                    alt={`${c.title} preview`}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.style.display = 'none' }}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-neutral-950/40 to-transparent" />
+                </div>
+              )}
+
+              <div className="p-5">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-lg font-semibold tracking-tight">{c.title}</h3>
+                  <motion.span
+                    initial={{ opacity: 0.4, x: 0 }}
+                    whileHover={{ opacity: 1, x: 2 }}
+                    className="text-white/40 group-hover:text-white"
+                  >
+                    <ArrowUpRightIcon className="size-5" />
+                  </motion.span>
+                </div>
+                <p className="mt-2 text-sm text-white/70">{c.blurb}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {c.tags.map((t) => (
+                    <span key={t} className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/70">
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.a>
           ))}
