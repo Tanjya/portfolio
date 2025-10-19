@@ -293,7 +293,7 @@ function Projects() {
     <section id="projects" className="border-y border-white/10 bg-white/5">
       <div className="mx-auto max-w-6xl px-4 py-20">
         <div className="mb-8 flex items-end justify-between">
-          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Projects</h2>
+          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">Selected Projects</h2>
           <a href="#contact" className="text-sm text-white/70 hover:text-white">Need something built?</a>
         </div>
 
