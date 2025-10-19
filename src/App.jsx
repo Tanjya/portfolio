@@ -231,7 +231,7 @@ function About() {
           <h3 className="font-semibold">Quick facts</h3>
           <ul className="mt-3 space-y-2 text-sm text-white/80">
             <li>📍 London, UK</li>
-            <li>🛰️ Building: NASA Daily Explorer</li>
+            <li>🛰️ Building: Tiktok screen mirror</li>
             <li>🎯 Goal: Junior Frontend role by year-end</li>
             <li>💬 Open to freelance/part-time</li>
           </ul>
