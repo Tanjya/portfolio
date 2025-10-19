@@ -254,7 +254,7 @@ function Projects() {
     {
       title: 'NASA Daily Explorer',
       blurb: 'Interactive space data dashboard with imagery, APOD and rover feeds.',
-      tags: ['React', 'Tailwind', 'APIs'],
+      tags: ['React', 'JavaScript', 'Tailwind', 'APIs'],
       link: 'https://tanjya.github.io/nasa-portfolio/',
       img: '/images/nasa-thumb.png',
     },
@@ -268,7 +268,7 @@ function Projects() {
     {
       title: 'PwC Digital Audit Dashboard',
       blurb: 'Internal web dashboard designed to streamline digital audit workflows and visualize key compliance metrics. Built collaboratively using React and Tailwind.',
-      tags: ['React', 'Tailwind', 'Team Project', 'Data Visualization'],
+      tags: ['React', 'Tailwind', 'JavaScript', 'Team Project', 'Data Visualization'],
       link: 'https://pwc-clone.netlify.app/', 
       img: '/images/pwc-thumb.png',
     },
