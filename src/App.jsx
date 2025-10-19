@@ -158,7 +158,7 @@ function Hero() {
           </motion.h1>
 
           <motion.p variants={fadeUp} className="mt-5 text-white/70 md:text-lg">
-            I’m Tanjya Akther — a front-end developer focused on performant, accessible interfaces.
+            I’m Tanjya Akther, a frontend developer focused on performant, accessible interfaces.
             Have a look at my latest work and the NASA Daily Explorer project.
           </motion.p>
 
@@ -262,7 +262,7 @@ function Projects() {
       title: 'Netflix Clone',
       blurb: 'Streaming platform using authentication, media browsing, and responsive design.',
       tags: ['React', 'Node.js', 'Tailwind', 'TypeScript'],
-      link: 'https://netflix-project-clone1.netlify.app/',
+      link: 'https://moonlit-lokum-3600e7.netlify.app/',
       img: '/images/netflix-thumb.jpg',
     },
     {
