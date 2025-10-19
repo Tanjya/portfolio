@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 
 /* ---------- Motion helpers (small + reusable) ---------- */
@@ -69,15 +69,15 @@ function SiteNav() {
             <NavLink href="#about">About</NavLink>
             <NavLink href="#projects">Projects</NavLink>
             <NavLink href="#contact">Contact</NavLink>
-            <motion.a
-              href="#contact"
+            <a
+              href="/Tanjya-Akther-CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-white text-neutral-900 hover:bg-white/90"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
             >
-              <span>Hire me</span>
+              <span>View CV</span>
               <ArrowRightIcon className="size-4" />
-            </motion.a>
+            </a>
           </nav>
 
           <button
@@ -104,9 +104,9 @@ function SiteNav() {
             <a className="py-2" href="#contact" onClick={() => setOpen(false)}>Contact</a>
             <a
               className="mt-2 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-white text-neutral-900 w-max"
-              href="#contact" onClick={() => setOpen(false)}
+              href="/Tanjya-Akther-CV.pdf" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}
             >
-              Hire me <ArrowRightIcon className="size-4" />
+              View CV <ArrowRightIcon className="size-4" />
             </a>
           </div>
         </motion.div>
@@ -162,22 +162,20 @@ function Hero() {
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
-            <motion.a
+            <a
               href="#projects"
               className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 font-semibold text-neutral-900 hover:bg-white/90"
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.98 }}
             >
               View projects <ArrowRightIcon className="size-4" />
-            </motion.a>
-            <motion.a
-              href="#contact"
+            </a>
+            <a
+              href="/Tanjya-Akther-CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-2.5 font-semibold hover:bg-white/10"
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.98 }}
             >
-              Get in touch
-            </motion.a>
+              View CV
+            </a>
           </motion.div>
         </motion.div>
       </div>
@@ -284,6 +282,8 @@ function Projects() {
             <motion.a
               key={i}
               href={c.link}
+              target="_blank"
+              rel="noopener noreferrer"
               variants={fadeUp}
               className="group rounded-2xl border border-white/10 bg-neutral-900/60 p-5 transition"
               whileHover={{ y: -6, boxShadow: '0 10px 30px rgba(59,130,246,0.12)' }}
@@ -316,8 +316,7 @@ function Projects() {
 }
 
 function Contact() {
-  const formRef = useRef(null)
-
+  // Converted to clear, working contact options (no broken form)
   return (
     <motion.section
       id="contact"
@@ -334,39 +333,56 @@ function Contact() {
           </motion.h2>
           <motion.p variants={fadeUp} className="mt-3 text-white/70">
             I’m available for junior frontend roles, internships and freelance projects.
-            Send a message and I’ll get back to you promptly.
+            Choose any option below to reach me instantly.
           </motion.p>
-          <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3 text-sm text-white/80">
-            <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><MailIcon className="size-4" /> tanjya26@gmail.com</span>
-            <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><GitHubIcon className="size-4" /> github.com/tanjya</span>
-            <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5"><LinkedInIcon className="size-4" /> linkedin.com/in/tanjya</span>
+
+          <motion.div variants={fadeUp} className="mt-6 flex flex-col gap-3 text-sm text-white/80">
+            <a
+              href="mailto:tanjya26@gmail.com?subject=Project%20inquiry%20from%20portfolio&body=Hi%20Tanjya%2C%20I%27d%20like%20to%20chat%20about..."
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 hover:bg-white/10"
+            >
+              <MailIcon className="size-4" /> Email: tanjya26@gmail.com
+            </a>
+            <a
+              href="https://github.com/tanjya"
+              target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 hover:bg-white/10"
+            >
+              <GitHubIcon className="size-4" /> github.com/tanjya
+            </a>
+            <a
+              href="https://www.linkedin.com/in/tanjya"
+              target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 hover:bg-white/10"
+            >
+              <LinkedInIcon className="size-4" /> linkedin.com/in/tanjya
+            </a>
+            <a
+              href="/Tanjya-Akther-CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 hover:bg-white/10"
+            >
+              <ArrowRightIcon className="size-4" /> View / Download CV
+            </a>
           </motion.div>
         </div>
 
-        <motion.form
-          ref={formRef}
-          onSubmit={(e) => e.preventDefault()}
+        {/* Optional quick message via mailto template instead of a non-working form */}
+        <motion.div
           variants={fadeUp}
           className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3"
         >
-          <Input label="Your name" placeholder="Tanjya Akther" />
-          <Input type="email" label="Email" placeholder="you@example.com" />
-          <div>
-            <label className="mb-1 block text-sm">Message</label>
-            <textarea className="w-full rounded-xl border border-white/10 bg-neutral-900 p-3 outline-none focus:ring-2 focus:ring-white/20" rows={5} placeholder="Tell me about your project..." />
-          </div>
-          <motion.button
-            className="w-full rounded-xl bg-white px-4 py-2 font-semibold text-neutral-900 hover:bg-white/90"
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              // tiny feedback pulse
-              if (!formRef.current) return
-            }}
+          <p className="text-sm text-white/70">
+            Prefer email pre-filled? Click below and your email client will open with a template.
+          </p>
+          <a
+            href={`mailto:tanjya26@gmail.com?subject=Let%27s%20work%20together&body=Hi%20Tanjya%2C%0A%0AProject%2FRole%20Title%3A%20%0ABrief%3A%20%0ATimeline%3A%20%0ABudget%20(or%20salary)%3A%20%0A%0ABest%2C%0A%5Byour%20name%5D`}
+            className="w-full inline-flex justify-center rounded-xl bg-white px-4 py-2 font-semibold text-neutral-900 hover:bg-white/90"
           >
-            Send
-          </motion.button>
-        </motion.form>
+            Compose email to Tanjya
+          </a>
+        </motion.div>
       </div>
     </motion.section>
   )
@@ -382,10 +398,13 @@ function Footer() {
             { href: '#about', label: 'About' },
             { href: '#projects', label: 'Projects' },
             { href: '#contact', label: 'Contact' },
+            { href: '/Tanjya-Akther-CV.pdf', label: 'CV', external: true },
           ].map((l) => (
             <motion.a
               key={l.href}
               href={l.href}
+              target={l.external ? '_blank' : undefined}
+              rel={l.external ? 'noopener noreferrer' : undefined}
               className="rounded-xl border border-white/10 px-3 py-1.5 text-sm hover:bg-white/10"
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
