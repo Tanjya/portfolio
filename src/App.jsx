@@ -256,21 +256,21 @@ function Projects() {
       blurb: 'Interactive space data dashboard with imagery, APOD and rover feeds.',
       tags: ['React', 'Tailwind', 'APIs'],
       link: 'https://tanjya.github.io/nasa-portfolio/',
-      img: '/images/nasa-thumb.jpg',
+      img: '/images/nasa-thumb.png',
     },
     {
       title: 'Netflix Clone',
       blurb: 'Streaming platform using authentication, media browsing, and responsive design.',
       tags: ['React', 'Node.js', 'Tailwind', 'TypeScript'],
       link: 'https://moonlit-lokum-3600e7.netlify.app/',
-      img: '/images/netflix-thumb.jpg',
+      img: '/images/netflix-thumb.png',
     },
     {
       title: 'Restaurant Application',
       blurb: 'Responsive restaurant web application designed to reflect branding while delivering a smooth and engaging user experience.',
       tags: ['React', 'JavaScript', 'Tailwind', 'RESTful API'],
       link: 'https://restaurant-tanjya.netlify.app/',
-      img: '/images/restaurant-thumb.jpg',
+      img: '/images/restaurant-thumb.png',
     },
   ]
 
