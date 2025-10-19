@@ -158,7 +158,7 @@ function Hero() {
           </motion.h1>
 
           <motion.p variants={fadeUp} className="mt-5 text-white/70 md:text-lg">
-            I’m Tanjya Akther, a frontend developer focused on performant, accessible interfaces.
+            I’m Tanjya Akther — a front-end developer focused on performant, accessible interfaces.
             Have a look at my latest work and the NASA Daily Explorer project.
           </motion.p>
 
@@ -262,8 +262,15 @@ function Projects() {
       title: 'Netflix Clone',
       blurb: 'Streaming platform using authentication, media browsing, and responsive design.',
       tags: ['React', 'Node.js', 'Tailwind', 'TypeScript'],
-      link: 'https://moonlit-lokum-3600e7.netlify.app/',
+      link: 'https://netflix-project-clone1.netlify.app/',
       img: '/images/netflix-thumb.png',
+    },
+    {
+      title: 'PwC Digital Audit Dashboard',
+      blurb: 'Internal web dashboard designed to streamline digital audit workflows and visualize key compliance metrics. Built collaboratively using React and Tailwind.',
+      tags: ['React', 'Tailwind', 'Team Project', 'Data Visualization'],
+      link: 'https://pwc-clone.netlify.app/', 
+      img: '/images/pwc-thumb.png',
     },
     {
       title: 'Restaurant Application',
@@ -271,6 +278,14 @@ function Projects() {
       tags: ['React', 'JavaScript', 'Tailwind', 'RESTful API'],
       link: 'https://restaurant-tanjya.netlify.app/',
       img: '/images/restaurant-thumb.png',
+    },
+    {
+      title: 'TikTok Data Explorer (WIP)',
+      blurb: 'Explore public TikTok trends, sounds, and posting analytics with charts and CSV export. Planned: trend search · author stats · shareable insights.',
+      tags: ['React', 'TypeScript', 'Charts', 'APIs'],
+      link: '#',
+      img: '/images/tiktok-thumb.png',
+      wip: true,
     },
   ]
 
@@ -293,13 +308,18 @@ function Projects() {
             <motion.a
               key={i}
               href={c.link}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={c.link && c.link !== '#' ? '_blank' : undefined}
+              rel={c.link && c.link !== '#' ? 'noopener noreferrer' : undefined}
               variants={fadeUp}
-              className="group rounded-2xl border border-white/10 bg-neutral-900/60 overflow-hidden transition"
+              className="group relative rounded-2xl border border-white/10 bg-neutral-900/60 overflow-hidden transition"
               whileHover={{ y: -6, boxShadow: '0 10px 30px rgba(59,130,246,0.12)' }}
               whileTap={{ scale: 0.99 }}
             >
+              {/* WIP badge */}
+              {c.wip && (
+                <span className="absolute left-3 top-3 z-10 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-900">WIP</span>
+              )}
+
               {/* preview image */}
               {c.img && (
                 <div className="relative h-40 w-full overflow-hidden rounded-t-2xl">
@@ -395,7 +415,7 @@ function Contact() {
           </motion.div>
         </div>
 
-        {/* Optional quick message via mailto template instead of a non-working form */}
+       
         <motion.div
           variants={fadeUp}
           className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3"
